@@ -40,6 +40,22 @@ Array.prototype.clean = function(deleteValue) {
 	return this;
 };
 
+/*function checkCollision(tank, bullet) {
+	currentBullet = ...;
+}
+
+function goThroughForCollisions() {
+	for (tankIter1 = 0; tankIter1 < tanks.length; tankIter1++) {
+		var currentTank = tanks[tankIter1];
+		for (tankIter2 = 0; tankIter2 < tanks.length; tankIter2++) {
+			for (bulletIter = 0; bulletIter < tanks.length; bulletIter++) {
+				var currentBullet = tanks[tankIter2].bullets[bulletIter];
+
+			}
+		}
+	}
+}*/
+
 function updateFrame(){
 	//Each argument should be an array of booleans, one for each tank
 	if(stage == "LOBBY"){ //game hasn't started yet
