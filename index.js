@@ -94,7 +94,20 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 }
 
 io.on('connection', function(socket){
+	var current_socket_id = socket.id;
+	console.log("connected: " + current_socket_id);
+
+	socket.on('disconnect', function(){
+		console.log("disconnected: " + current_socket_id);
+		delete players[getPlayerById(current_socket_id)];
+	});
 	
+	if(stage == "LOBBY"){
+		socket.on('register_form', function(data){
+			makeTank(0, 0, 0, current_socket_id);
+		});
+	}
+
 });
 
 window.setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
