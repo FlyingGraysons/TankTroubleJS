@@ -88,13 +88,13 @@ do {
 			if (y==MAP_ROWS) u = true;
 
 			//if (previous_item.position[0] != x && previous_item.position[1] != y){
-				var n = Math.round(Math.random()*3);
+				var n = Math.round(Math.random()*7);
 				if (n==0) u = true;
-				n = Math.round(Math.random()*3);
+				n = Math.round(Math.random()*7);
 				if (n==0) d = true;
-				n = Math.round(Math.random()*3);
+				n = Math.round(Math.random()*7);
 				if (n==0) r = true;
-				n = Math.round(Math.random()*3);
+				n = Math.round(Math.random()*7);
 				if (n==0) l = true;
 				map[y][x] = createWall(u, d, r, l, x, y);
 			//}
