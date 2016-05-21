@@ -1,20 +1,61 @@
 <html>
 	<head>
-		<!-- css stuff here -->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<script>
+			function hideAndShow(pageToHide, pageToShow) {
+				document.getElementById(pageToHide).style.display='none';
+				document.getElementById(pageToShow).style.display='block';
+			}
+
+			function getMap() {
+				// ...
+			}
+		</script>
 	</head>
 	<body>
-		<h1 id="bigName">TankTroubleJS</h1>
-		<div id="waiting">
-			<h2>Waiting Area</h2>
-			<span id="duringGame">A maximum of four people are allowed to play at a time.
-			Please wait until the game ends.</span>
-			<span id="beforeGame">The Game will start when at least two people join.</span>
-			<!-- Change that span to say "The game will start in 10 seconds" etc. after two people join -->
+		<div id="initialPage">
+			<h1 id="bigName">TankTroubleJS</h1>
+			<div id="waiting">
+				<h2>Waiting Area</h2>
+				<span id="duringGame">A maximum of four people are allowed to play at a time.
+				Please wait until the game ends.</span>
+				<span id="beforeGame">The Game will start when at least two people join.</span>
+				<!-- Change that span to say "The game will start in 10 seconds" etc. after two people join -->
+			</div>
 		</div>
+
 		<div id="gameArea">
 			<!-- Put game canvas here -->
-			<canvas id="canvas" width="300" height="300"></canvas>
+			<canvas id="canvas" width="800" height="800"></canvas>
+			<script>
+				var c = document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
+				/*var map = getMap(); //THIS DOESNT EXIST YET
+				var mapWidth = map.length;
+				var mapHeight = map[0].length;
+				ctx.canvas.width  = mapWidth;
+  				ctx.canvas.height = mapHeight;
+  				for (widthIter = 0; widthIter < mapWidth; widthIter++) {
+  					for (heightIter = 0; heightIter < mapHeight; heightIter++) {
+
+  					}
+  				}*
+
+
+
+
+
+			</script>
 		</div>
+
 		<script src="frontend.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 	</body>
