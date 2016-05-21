@@ -82,7 +82,8 @@ function updateFrame(){
 		//if (tanks[tankIter].isSpace) {
 		//	if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
 		//}
-		
+
+
 		tanks.clean(undefined);
 	}
 
@@ -140,7 +141,7 @@ io.on('connection', function(socket){
 			stage = "GAME";
 		});
 	}
-	
+
 //	if(stage == "GAME"){
 		socket.on('user_input_state', function(data){
 			tanks[getTankById(current_socket_id)].keypresses.isRightPressed = data[0];
