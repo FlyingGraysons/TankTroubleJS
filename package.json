@@ -1,0 +1,29 @@
+{
+  "name": "tank-trouble-js",
+  "version": "1.0.0",
+  "description": "Tank Trouble in JavaScript with Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ja-San/TankTroubleJS.git"
+  },
+  "keywords": [
+    "tank",
+    "trouble",
+    "game",
+    "socket"
+  ],
+  "author": "Jake Sanders and Henry Wildermuth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ja-San/TankTroubleJS/issues"
+  },
+  "homepage": "https://github.com/ja-San/TankTroubleJS#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.6"
+  }
+}
