@@ -1,6 +1,6 @@
 var socket = io();
 
-var c = document.getElementById("myCanvas");
+var c = document.getElementById("canvas");
 var ctx = c.getContext("2d");
 
 var rightkeydown = false;

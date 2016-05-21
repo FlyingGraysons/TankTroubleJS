@@ -1,15 +1,16 @@
 // Setup basic express server
 var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
+var app = require('express')();
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
+
 var port = process.env.PORT || 3000;
 
 // Serve folder
 app.use(express.static(__dirname + '/public'));
 
 // Listening function
-server.listen(port, function () {
+http.listen(port, function () {
 	console.log('Server listening at port %d', port);
 });
 
@@ -28,6 +29,8 @@ const BULLET_SPEED = 5;
 
 var walls = [];
 var tanks = [];
+
+var stage = "LOBBY";
 
 function updateFrame(){
 	//Each argument should be an array of booleans, one for each tank
@@ -51,16 +54,15 @@ function updateFrame(){
 			}
 		}
 		if (isSpacePressed[tankIter]) {
-			if (tanks[tankIter].bullets.length < 5)
-				tanks[tankIter].makeBullet)()
+			if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
 		}
 		for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
 			tanks[tankIter].bullets[i].time++
 			if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
 				delete tanks[tankIter].bullets[i];
 			}
-			tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
-			tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
+			tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i].rotation) * BULLET_SPEED);
+			tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i].rotation) * BULLET_SPEED);
 		}
 
 	}
@@ -74,7 +76,7 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 		xPos:startX,
 		yPos:startY,
 		rotation:startRotation,
-		socketid:mySocketId,
+		socket_id:mySocketId,
 		bullets:[],
 		keypresses:{},
 		rotate:function(rotateLeft) { //rotateLeft is a boolean. If it's true, then the tank will rotate left, otherwise right
@@ -85,12 +87,22 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 				xPos:tank.xPos, // TO DO: Make it the front of the tank, not the middle, where bullets come from
 				yPos:tank.yPos,
 				rotation:tank.rotation,
-				time: 0;
+				time: 0
 			}
 			this.bullets.push(bullet);
 		},
 	}
 	tanks.push(tank);
+}
+
+function getTankById(current_socket_id){
+	for(var i = 0; i < tanks.length; i++){
+		if(typeof tanks[i] !== 'undefined'){
+			if(tanks[i].socket_id == current_socket_id){
+				return i;
+			}
+		}
+	}
 }
 
 io.on('connection', function(socket){
@@ -99,7 +111,7 @@ io.on('connection', function(socket){
 
 	socket.on('disconnect', function(){
 		console.log("disconnected: " + current_socket_id);
-		delete players[getPlayerById(current_socket_id)];
+		delete tanks[getTankById(current_socket_id)];
 	});
 	
 	if(stage == "LOBBY"){
@@ -110,4 +122,4 @@ io.on('connection', function(socket){
 
 });
 
-window.setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
+setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
