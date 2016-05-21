@@ -13,7 +13,6 @@ server.listen(port, function () {
 	console.log('Server listening at port %d', port);
 });
 
-//Server side
 
 const FRAMES_PER_SECOND = 30;
 
@@ -29,10 +28,20 @@ const BULLET_SPEED = 5;
 var walls = [];
 var tanks = [];
 
+Array.prototype.clean = function(deleteValue) {
+	for (var i = 0; i < this.length; i++) {
+		if (this[i] == deleteValue) {
+			this.splice(i, 1);
+			i--;
+		}
+	}
+	return this;
+};
+
 function updateFrame(){
 	//Each argument should be an array of booleans, one for each tank
 	if(stage == "LOBBY"){ //game hasn't started yet
-		
+
 	}else if(stage == "GAME"){
 		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
 			if (tanks[tankIter].isUpPressed) {
@@ -49,22 +58,29 @@ function updateFrame(){
 			if (isRightPressed[tankIter]) {
 				tanks[tankIter].rotate(false);
 			}
-		}
-		if (isSpacePressed[tankIter]) {
-			if (tanks[tankIter].bullets.length < 5)
-				tanks[tankIter].makeBullet)()
-		}
-		for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
-			tanks[tankIter].bullets[i].time++
-			if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
-				delete tanks[tankIter].bullets[i];
-			}
-			tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
-			tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
-		}
 
+			if (isSpacePressed[tankIter]) {
+				if (tanks[tankIter].bullets.length < 5)
+					tanks[tankIter].makeBullet)()
+			}
+			for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
+				tanks[tankIter].bullets[i].time++
+				if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
+					delete tanks[tankIter].bullets[i];
+					continue;
+				}
+				tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
+				tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
+				for (var j = 0; j < tanks.length; j++) {
+					if ( (typeof tanks[j] !== "undefined") && (tanks[j].xPos == tanks[tankIter].bullets[i].xPos) && (tanks[j].yPos == tanks[tankIter].bullets[i].yPos))
+						delete tanks[j];
+				}
+			}
+			tanks[tankIter].bullets.clean(undefined)
+		}
+		tanks.clean(undefined)
 	}
-	
+
 	var game_data = [stage, walls, tanks];
 	io.sockets.emit('all_data', game_data);
 }
@@ -94,7 +110,7 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 }
 
 io.on('connection', function(socket){
-	
+
 });
 
 window.setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
