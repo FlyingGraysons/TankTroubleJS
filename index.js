@@ -69,3 +69,5 @@ function makeTank(startX, startY, startRotation) { //Create a tank, and then pus
 	}
 	tanks.push(tank);
 }
+
+window.setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
