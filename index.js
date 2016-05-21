@@ -110,7 +110,7 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 				time: 0
 			}
 			this.bullets.push(bullet);
-		},
+		}
 	}
 	tanks.push(tank);
 }
@@ -149,7 +149,7 @@ io.on('connection', function(socket){
 			tanks[getTankById(current_socket_id)].keypresses.isUpPressed = data[2];
 			tanks[getTankById(current_socket_id)].keypresses.isDownPressed = data[3];
 			tanks[getTankById(current_socket_id)].keypresses.isSpacePressed = data[4];
-			console.log(data[4]);
+			console.log(data);
 		});
 //	}
 
