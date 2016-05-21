@@ -62,6 +62,7 @@ function updateFrame(){
 
 	}else if(stage == "GAME"){
 		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
+			if(typeof tanks[tankIter] !== 'undefined'){
 			if (tanks[tankIter].isUpPressed) {
 				tanks[tankIter].xPos += (Math.cos(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
 				tanks[tankIter].yPos += (Math.sin(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
@@ -76,10 +77,11 @@ function updateFrame(){
 			if (tanks[tankIter].isRightPressed) {
 				tanks[tankIter].rotate(false);
 			}
+			}
 		}
-		if (isSpacePressed[tankIter]) {
-			if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
-		}
+		//if (tanks[tankIter].isSpace) {
+		//	if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
+		//}
 		
 		tanks.clean(undefined);
 	}
@@ -95,7 +97,7 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 		rotation:startRotation,
 		socket_id:mySocketId,
 		bullets:[],
-		keypresses:{},
+		keypresses:{isLeftPressed:false, isRightPressed:false, isDownPressed:false, isUpPressed:false},
 		rotate:function(rotateLeft) { //rotateLeft is a boolean. If it's true, then the tank will rotate left, otherwise right
 			rotation += (rotateLeft ? TANK_ROTATION_SPEED : -TANK_ROTATION_SPEED)
 		},
@@ -133,9 +135,22 @@ io.on('connection', function(socket){
 
 	if(stage == "LOBBY"){
 		socket.on('register_form', function(data){
+			console.log("registered: " + current_socket_id);
 			makeTank(0, 0, 0, current_socket_id);
+			stage = "GAME";
 		});
 	}
+	
+//	if(stage == "GAME"){
+		socket.on('user_input_state', function(data){
+			tanks[getTankById(current_socket_id)].keypresses.isRightPressed = data[0];
+			tanks[getTankById(current_socket_id)].keypresses.isLeftPressed = data[1];
+			tanks[getTankById(current_socket_id)].keypresses.isUpPressed = data[2];
+			tanks[getTankById(current_socket_id)].keypresses.isDownPressed = data[3];
+			tanks[getTankById(current_socket_id)].keypresses.isSpacePressed = data[4];
+			console.log(data[4]);
+		});
+//	}
 
 });
 

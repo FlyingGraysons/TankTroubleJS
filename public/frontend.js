@@ -1,6 +1,6 @@
 var socket = io();
 
-var c = document.getElementById("canvas");
+var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
 var rightkeydown = false;
@@ -12,6 +12,7 @@ var spacekeydown = false;
 function sendData(){
 	var data = [rightkeydown, leftkeydown, upkeydown, downkeydown, spacekeydown];
 	socket.emit('user_input_state', data);
+	console.log("trying to send user input");
 }
 
 window.onkeydown = function(e){
@@ -36,13 +37,14 @@ window.onkeyup = function(e){
 
 socket.on('all_data', function(data){
 	if(data.stage == "LOBBY"){
-		//display lobby
+		
 	}else if(data.stage == "GAME"){
 		ctx.clearRect(0, 0, c.width, c.height);
 		for(var i = 0; i < data.tanks.length; i++){
 			ctx.fillStyle = "#000000";
 			ctx.drawRect(data.tanks[i].xPos, data.tanks[i].yPos, 50, 50);
 		}
+		console.log(data.tanks);
 	}
 	
 });
