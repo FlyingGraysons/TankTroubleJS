@@ -29,7 +29,7 @@ const BULLET_SPEED = 5;
 var walls = [];
 var tanks = [];
 
-function updateFrame(isUpPressed, isDownPressed, isLeftPressed, isRightPressed) { //Updates the frame, getting the arguments from the sockets
+function updateFrame(isUpPressed, isDownPressed, isLeftPressed, isRightPressed, isSpacePressed) { //Updates the frame, getting the arguments from the sockets
 	//Each argument should be an array of booleans, one for each tank
 	for (tankIter = 0; tankIter < tanks.length; tankIter++) {
 		if (isUpPressed[tankIter]) {
@@ -46,6 +46,19 @@ function updateFrame(isUpPressed, isDownPressed, isLeftPressed, isRightPressed) 
 		if (isRightPressed[tankIter]) {
 			tanks[tankIter].rotate(false);
 		}
+		if (isSpacePressed[tankIter]) {
+			if (tanks[tankIter].bullets.length < 5)
+				tanks[tankIter].makeBullet)()
+		}
+		for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
+			tanks[tankIter].bullets[i].time++
+			if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
+				delete tanks[tankIter].bullets[i];
+			}
+			tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
+			tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i]rotation) * BULLET_SPEED);
+		}
+
 	}
 }
 
@@ -63,8 +76,9 @@ function makeTank(startX, startY, startRotation) { //Create a tank, and then pus
 				xPos:tank.xPos, // TO DO: Make it the front of the tank, not the middle, where bullets come from
 				yPos:tank.yPos,
 				rotation:tank.rotation,
+				time: 0;
 			}
-			bullets.push(bullet);
+			this.bullets.push(bullet);
 		},
 	}
 	tanks.push(tank);
