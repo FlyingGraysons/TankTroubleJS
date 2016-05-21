@@ -50,43 +50,21 @@ function updateFrame(){
 				tanks[tankIter].xPos += (Math.cos(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
 				tanks[tankIter].yPos += (Math.sin(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
 			}
-			if (isDownPressed[tankIter]) {
+			if (tanks[tankIter].isDownPressed) {
 				tanks[tankIter].xPos -= (Math.cos(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
 				tanks[tankIter].yPos -= (Math.sin(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
 			}
-			if (isLeftPressed[tankIter]) {
+			if (tanks[tankIter].isLeftPressed) {
 				tanks[tankIter].rotate(true);
 			}
-			if (isRightPressed[tankIter]) {
+			if (tanks[tankIter].isRightPressed) {
 				tanks[tankIter].rotate(false);
 			}
 		}
 		if (isSpacePressed[tankIter]) {
 			if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
 		}
-		for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
-			tanks[tankIter].bullets[i].time++
-			if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
-				delete tanks[tankIter].bullets[i];
-			}
-			if (isSpacePressed[tankIter]) {
-				if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet)();
-			}
-			for (var i = 0; i < tanks[tankIter].bullets.length; i++) {
-				tanks[tankIter].bullets[i].time++;
-				if (tanks[tankIter].bullets[i].time > FRAMES_PER_SECOND*4) {
-					delete tanks[tankIter].bullets[i];
-					continue;
-				}
-				tanks[tankIter].bullets[i].xPos += (Math.cos(tanks[tankIter].bullets[i].rotation) * BULLET_SPEED);
-				tanks[tankIter].bullets[i].yPos += (Math.sin(tanks[tankIter].bullets[i].rotation) * BULLET_SPEED);
-				for (var j = 0; j < tanks.length; j++) {
-					if ((typeof tanks[j] !== "undefined") && (tanks[j].xPos == tanks[tankIter].bullets[i].xPos) && (tanks[j].yPos == tanks[tankIter].bullets[i].yPos))
-						delete tanks[j];
-				}
-			}
-			tanks[tankIter].bullets.clean(undefined);
-		}
+		
 		tanks.clean(undefined);
 	}
 
