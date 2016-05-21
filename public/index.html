@@ -16,7 +16,8 @@
 			}
 
 			function getMap() {
-				// ...
+				//THIS DOESNT DO ANYTHING YET
+				return map;
 			}
 		</script>
 	</head>
@@ -31,28 +32,37 @@
 				<!-- Change that span to say "The game will start in 10 seconds" etc. after two people join -->
 			</div>
 		</div>
-
+		<p>TEST 1</p>
 		<div id="gameArea">
+			<p>TEST 2</p>
 			<!-- Put game canvas here -->
-			<canvas id="canvas" width="800" height="800"></canvas>
+			<canvas id="myCanvas" width="800" height="800"></canvas>
 			<script>
 				var c = document.getElementById("myCanvas");
 				var ctx = c.getContext("2d");
-				/*var map = getMap(); //THIS DOESNT EXIST YET
+				var map = getMap(); // THIS DOESNT EXIST YET
 				var mapWidth = map.length;
 				var mapHeight = map[0].length;
-				ctx.canvas.width  = mapWidth;
-  				ctx.canvas.height = mapHeight;
+				ctx.canvas.width  = (mapWidth * 100) + 5;
+  				ctx.canvas.height = (mapHeight * 100) + 5;
+
   				for (widthIter = 0; widthIter < mapWidth; widthIter++) {
   					for (heightIter = 0; heightIter < mapHeight; heightIter++) {
-
+  						var tile = map[widthIter][heightIter];
+  						if (tile.wall_up) {
+							ctx.fillRect(widthIter * 100, heightIter * 100,105,5);
+  						}
+  						if (tile.wall_down) {
+							ctx.fillRect((widthIter + 1) * 100, heightIter * 100,105,5);
+  						}
+  						if (tile.wall_up) {
+							ctx.fillRect(widthIter * 100, heightIter * 100,5,105);
+  						}
+  						if (tile.wall_up) {
+							ctx.fillRect(widthIter * 100, (heightIter + 1) * 100,5,105);
+  						}
   					}
-  				}*
-
-
-
-
-
+				}
 			</script>
 		</div>
 
