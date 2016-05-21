@@ -42,7 +42,7 @@ socket.on('all_data', function(data){
 		ctx.clearRect(0, 0, c.width, c.height);
 		for(var i = 0; i < data.tanks.length; i++){
 			ctx.fillStyle = "#000000";
-			ctx.drawRect(data.tanks[i].xPos, data.tanks[i].yPos, 50, 50);
+			ctx.fillRect(data.tanks[i].xPos, data.tanks[i].yPos, 50, 50);
 		}
 		console.log(data.tanks);
 	}

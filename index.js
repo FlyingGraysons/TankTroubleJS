@@ -61,34 +61,22 @@ function updateFrame(){
 	if(stage == "LOBBY"){ //game hasn't started yet
 
 	}else if(stage == "GAME"){
-		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
-			console.log("Tank " + tankIter + "'s xPos: " + tanks[tankIter].xPos + " and yPos: " + tanks[tankIter].yPos);
-			if(typeof tanks[tankIter] !== 'undefined'){
-			if (tanks[tankIter].isUpPressed) {
-				tanks[tankIter].xPos += (Math.cos(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
-				tanks[tankIter].yPos += (Math.sin(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
-			}
-			if (tanks[tankIter].isDownPressed) {
-				tanks[tankIter].xPos -= (Math.cos(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
-				tanks[tankIter].yPos -= (Math.sin(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
-			}
-			if (tanks[tankIter].isLeftPressed) {
-				tanks[tankIter].rotate(true);
-			}
-			if (tanks[tankIter].isRightPressed) {
-				tanks[tankIter].rotate(false);
-			}
+		for (i = 0; i < tanks.length; i++) {
+			console.log("Tank " + i + "'s xPos: " + tanks[i].xPos + " and yPos: " + tanks[i].yPos + " rotation: " + tanks[i].rotation);
+			if(typeof tanks[i] !== 'undefined'){
+				tanks[i].xPos += 2;
 			}
 		}
-		//if (tanks[tankIter].isSpace) {
-		//	if (tanks[tankIter].bullets.length < 5) tanks[tankIter].makeBullet();
-		//}
+
 
 
 		tanks.clean(undefined);
 	}
 
-	var game_data = [stage, walls, tanks];
+	var game_data = {};
+	game_data.tanks = tanks;
+	game_data.walls = walls;
+	game_data.stage = stage;
 	io.sockets.emit('all_data', game_data);
 }
 
@@ -100,9 +88,7 @@ function makeTank(startX, startY, startRotation, mySocketId) { //Create a tank, 
 		socket_id:mySocketId,
 		bullets:[],
 		keypresses:{isLeftPressed:false, isRightPressed:false, isDownPressed:false, isUpPressed:false},
-		rotate:function(rotateLeft) { //rotateLeft is a boolean. If it's true, then the tank will rotate left, otherwise right
-			rotation += (rotateLeft ? TANK_ROTATION_SPEED : -TANK_ROTATION_SPEED)
-		},
+		rotation:0,
 		makeBullet:function() {
 			var bullet = {
 				xPos:tank.xPos, // TO DO: Make it the front of the tank, not the middle, where bullets come from
@@ -156,4 +142,4 @@ io.on('connection', function(socket){
 
 });
 
-setInterval(function(){updateFrame();}, FRAMES_PER_SECOND);
+setInterval(function(){updateFrame();}, 1000/FRAMES_PER_SECOND);
