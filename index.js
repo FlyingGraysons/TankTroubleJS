@@ -61,10 +61,23 @@ function updateFrame(){
 	if(stage == "LOBBY"){ //game hasn't started yet
 
 	}else if(stage == "GAME"){
-		for (i = 0; i < tanks.length; i++) {
-			console.log("Tank " + i + "'s xPos: " + tanks[i].xPos + " and yPos: " + tanks[i].yPos + " rotation: " + tanks[i].rotation);
-			if(typeof tanks[i] !== 'undefined'){
-				tanks[i].xPos += 2;
+		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
+			if(typeof tanks[tankIter] !== 'undefined'){
+			console.log("Tank " + tankIter + "'s xPos: " + tanks[tankIter].xPos + " and yPos: " + tanks[tankIter].yPos);
+			if (tanks[tankIter].isUpPressed) {
+				tanks[tankIter].xPos += (Math.cos(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
+				tanks[tankIter].yPos += (Math.sin(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
+			}
+			if (tanks[tankIter].isDownPressed) {
+				tanks[tankIter].xPos -= (Math.cos(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
+				tanks[tankIter].yPos -= (Math.sin(tanks[tankIter].rotation) * TANK_BACKWARD_SPEED);
+			}
+			if (tanks[tankIter].isLeftPressed) {
+				tanks[tankIter].rotate(true);
+			}
+			if (tanks[tankIter].isRightPressed) {
+				tanks[tankIter].rotate(false);
+			}
 			}
 		}
 
