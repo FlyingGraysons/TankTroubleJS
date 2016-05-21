@@ -1,5 +1,5 @@
 
-var changes = [[0, 1], [0, -1], [1, 0], [-1,0]];
+var CHANGES = [[0, 1], [0, -1], [1, 0], [-1,0]];
 var createWall = function(up, down, right, left, xPos, yPos){
 	return {
 		wall_up: up,
