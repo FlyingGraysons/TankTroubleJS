@@ -62,6 +62,7 @@ function updateFrame(){
 
 	}else if(stage == "GAME"){
 		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
+			console.log("Tank " + tankIter + "'s xPos: " + tanks[tankIter].xPos + " and yPos: " + tanks[tankIter].yPos);
 			if(typeof tanks[tankIter] !== 'undefined'){
 			if (tanks[tankIter].isUpPressed) {
 				tanks[tankIter].xPos += (Math.cos(tanks[tankIter].rotation) * TANK_FORWARD_SPEED);
@@ -142,7 +143,7 @@ io.on('connection', function(socket){
 		});
 	}
 
-//	if(stage == "GAME"){
+	if(stage == "GAME"){
 		socket.on('user_input_state', function(data){
 			tanks[getTankById(current_socket_id)].keypresses.isRightPressed = data[0];
 			tanks[getTankById(current_socket_id)].keypresses.isLeftPressed = data[1];
@@ -151,7 +152,7 @@ io.on('connection', function(socket){
 			tanks[getTankById(current_socket_id)].keypresses.isSpacePressed = data[4];
 			console.log(data);
 		});
-//	}
+	}
 
 });
 
