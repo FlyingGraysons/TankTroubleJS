@@ -1,3 +1,18 @@
+// Setup basic express server
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(http);
+var port = process.env.PORT || 3000;
+
+// Serve folder
+app.use(express.static(__dirname + '/public'));
+
+// Listening function
+server.listen(port, function () {
+	console.log('Server listening at port %d', port);
+});
+
 //Server side
 
 const FRAMES_PER_SECOND = 30;
@@ -29,7 +44,7 @@ function updateFrame(isUpPressed, isDownPressed, isLeftPressed, isRightPressed) 
 			tanks[tankIter].rotate(true);
 		}
 		if (isRightPressed[tankIter]) {
-			tanks[tankIter].rotate(false); 
+			tanks[tankIter].rotate(false);
 		}
 	}
 }
