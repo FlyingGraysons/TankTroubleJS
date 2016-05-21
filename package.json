@@ -4,7 +4,8 @@
   "description": "Tank Trouble in JavaScript with Socket.io",
   "main": "index.js",
   "scripts": {
-    "test": "node ."
+    "test": "node .",
+	"start": "while true; do node . 2>&1 | tee `date +%Y-%m-%d`.log; done"
   },
   "repository": {
     "type": "git",

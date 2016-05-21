@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<!-- css stuff here -->
+	</head>
+	<body>
+		<h1 id="bigName">TankTroubleJS</h1>
+		<div id="waiting">
+			<h2>Waiting Area</h2>
+			<span id="duringGame">A maximum of four people are allowed to play at a time.
+			Please wait until the game ends.</span>
+			<span id="beforeGame">The Game will start when at least two people join.</span>
+			<!-- Change that span to say "The game will start in 10 seconds" etc. after two people join -->
+		</div>
+		<div id="gameArea">
+			<!-- Put game canvas here -->
+			<canvas id="canvas" width="300" height="300"></canvas>
+		</div>
+		<script src="frontend.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</body>
+</html>
