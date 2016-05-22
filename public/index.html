@@ -63,15 +63,14 @@
 			<h1 id="bigName">TankTroubleJS</h1>
 			<div id="waiting">
 				<h2>Waiting Area</h2>
-				<span id="duringGame">A maximum of four people are allowed to play at a time.
-				Please wait until the game ends.</span>
+				<span id="duringGame">A game is currently playing. Watch Below!</span>
 				<span id="beforeGame">The Game will start when at least two people join.</span>
 				<!-- Change that span to say "The game will start in 10 seconds" etc. after two people join -->
 			</div>
 		</div>
 		<div id="gameArea" class="center">
 			<!-- Put game canvas here -->
-			<canvas id="myCanvas" width="800" height="800" style=" padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto; display: block;"></canvas>
+			<canvas id="myCanvas" width="800" height="800" style=" padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto; display: block; border:1px solid #000000;"></canvas>
 			<script>
 				var c = document.getElementById("myCanvas");
 				var ctx = c.getContext("2d");
@@ -98,12 +97,12 @@
   						}
   					}
 				}
-				
+
 			</script>
 		</div>
-		
+
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="frontend.js"></script>
-		
+
 	</body>
 </html>

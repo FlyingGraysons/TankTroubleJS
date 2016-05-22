@@ -29,6 +29,7 @@ const BULLET_SPEED = 5;
 var walls = [];
 var tanks = [];
 var stage = "LOBBY";
+var countdown = 21;
 
 Array.prototype.clean = function(deleteValue) {
 	for (var i = 0; i < this.length; i++) {
@@ -59,7 +60,11 @@ function goThroughForCollisions() {
 function updateFrame(){
 	//Each argument should be an array of booleans, one for each tank
 	if(stage == "LOBBY"){ //game hasn't started yet
-
+		if (tanks.length >= 2) {
+			countdown -= 1/FRAMES_PER_SECOND;
+		} else {
+			countdown = 21;
+		}
 	}else if(stage == "GAME"){
 		for (tankIter = 0; tankIter < tanks.length; tankIter++) {
 			if(typeof tanks[tankIter] !== 'undefined'){
@@ -105,7 +110,8 @@ function updateFrame(){
 	var game_data = {
 		tanks: tanks,
 		walls: walls,
-		stage: stage
+		stage: stage,
+		countdown: countdown
 	};
 	io.sockets.emit('all_data', game_data);
 }

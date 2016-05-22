@@ -5,6 +5,7 @@ var ctx = c.getContext("2d");
 var tankWidth = 50; // placeholder until image loads
 var tankHeight = 50; // placeholder until image loads
 var ready = 'b';
+const radius = 5;
 
 var rightkeydown = false;
 var leftkeydown = false;
@@ -77,8 +78,6 @@ function drawPlayer(x, y, width, height, degrees, player) {
     // draw the rect on the transformed context
     // Note: after transforming [0,0] is visually [x,y]
     //       so the rect needs to be offset accordingly when drawn
-	console.log("Width: " + width);
-	console.log("Height: " + height);
 
     ctx.drawImage(images[player], -width / 2, -height / 2);
 
@@ -87,15 +86,35 @@ function drawPlayer(x, y, width, height, degrees, player) {
 
 }
 
+function drawBullet(bullet) {
+	var x = bullet.xPos;
+	var y = bullet.yPos;
+	ctx.beginPath();
+	ctx.arc(x, y, radius, 0, 2 * Math.PI);
+	ctx.fillStyle = 'black';
+	ctx.fill();
+}
+
 socket.on('all_data', function(data){
 	if(data.stage === "LOBBY"){
+		document.getElementById("beforeGame").style.display = "block";
+		document.getElementById("duringGame").style.display = "none";
+		if (data.countdown === 21) {
+			document.getElementById("beforeGame").innerHTML('The Game will start when at least two people join.')
+		} else {
+			document.getElementById("beforeGame").innerHTML("The game will start in " +data.countdown +" seconds.")
+		}
 
 	}else if(data.stage === "GAME" && ready === "baaaa"){
+		document.getElementById("beforeGame").style.display = "none";
+		document.getElementById("duringGame").style.display = "block";
 		ctx.clearRect(0, 0, c.width, c.height);
 
 		for(var i = 0; i < data.tanks.length; i++){
 			drawPlayer(data.tanks[i].xPos, data.tanks[i].yPos, width, height, data.tanks[i].rotation, i);
-
+			for (var i = 0; i < data.tanks[i].bullets.length; i++) {
+				drawBullet(data.tanks.bullets[i]);
+			}
 		}
 		// console.log(data.tanks);
 	}
