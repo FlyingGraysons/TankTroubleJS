@@ -2,6 +2,9 @@ var socket = io();
 
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
+var tankWidth = 50; // placeholder until image loads
+var tankHeight = 50; // placeholder until image loads
+var ready = 'b';
 
 var rightkeydown = false;
 var leftkeydown = false;
@@ -35,16 +38,66 @@ window.onkeyup = function(e){
 	sendData();
 }
 
+var images = [];
+// Image factory
+var createImage = function(src) {
+  var img   = new Image();
+  img.src   = src;
+  img.onload = function() {
+  	ready += 'a';
+  }
+  images.push(img)
+}
+
+// Make the image array
+var images = [];
+createImage("/TankImages/TankTextureRed.jpg");
+createImage("/TankImages/TankTextureBlue.jpg");
+createImage("/TankImages/TankTextureGreen.jpg");
+var lastImage = new Image();
+lastImage.onload = function() {
+	width = this.width;
+	height = this.height;
+	ready += 'a';
+}
+lastImage.src = "/TankImages/TankTextureYellow.jpg";
+images.push(lastImage);
+
+function drawPlayer(x, y, width, height, degrees, player) {
+
+    // first save the untranslated/unrotated context
+    ctx.save();
+
+    ctx.beginPath();
+    // move the rotation point to the center of the rect
+    ctx.translate(x + width / 2, y + height / 2);
+    // rotate the rect
+    ctx.rotate(degrees);
+
+    // draw the rect on the transformed context
+    // Note: after transforming [0,0] is visually [x,y]
+    //       so the rect needs to be offset accordingly when drawn
+	console.log("Width: " + width);
+	console.log("Height: " + height);
+
+    ctx.drawImage(images[player], -width / 2, -height / 2);
+
+    // restore the context to its untranslated/unrotated state
+    ctx.restore();
+
+}
+
 socket.on('all_data', function(data){
-	if(data.stage == "LOBBY"){
-		
-	}else if(data.stage == "GAME"){
+	if(data.stage === "LOBBY"){
+
+	}else if(data.stage === "GAME" && ready === "baaaa"){
 		ctx.clearRect(0, 0, c.width, c.height);
+
 		for(var i = 0; i < data.tanks.length; i++){
-			ctx.fillStyle = "#000000";
-			ctx.fillRect(data.tanks[i].xPos, data.tanks[i].yPos, 50, 50);
+			drawPlayer(data.tanks[i].xPos, data.tanks[i].yPos, width, height, data.tanks[i].rotation, i);
+
 		}
-		console.log(data.tanks);
+		// console.log(data.tanks);
 	}
-	
+
 });
